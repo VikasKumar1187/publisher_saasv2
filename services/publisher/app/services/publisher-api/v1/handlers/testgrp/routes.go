@@ -1,11 +1,10 @@
-package checkgrp
+package testgrp
 
 import (
 	"net/http"
 
-	"github.com/ServiceWeaver/weaver"
-	"github.com/jmoiron/sqlx"
-
+	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/business/web/v1/auth"
+	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/business/web/v1/mid"
 	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/foundation/logger"
 	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/foundation/web"
 )
@@ -15,18 +14,15 @@ type Config struct {
 	UsingWeaver bool
 	Build       string
 	Log         *logger.Logger
-	DB          *sqlx.DB
+	Auth        *auth.Auth
 }
 
 // Routes adds specific routes for this group.
 func Routes(app *web.App, cfg Config) {
 	const version = "v1"
 
-	checkgrp := New(cfg.Build, cfg.Log, cfg.DB)
-	app.HandleNoMiddleware(http.MethodGet, version, "/readiness", checkgrp.Readiness)
-	app.HandleNoMiddleware(http.MethodGet, version, "/liveness", checkgrp.Liveness)
+	testgrp := New(cfg.Build, cfg.Log, cfg.Auth)
 
-	if cfg.UsingWeaver {
-		app.HandleNoMiddleware(http.MethodGet, "" /*group*/, weaver.HealthzURL, checkgrp.Readiness)
-	}
+	app.Handle(http.MethodGet, version, "/test", testgrp.Test)
+	app.Handle(http.MethodGet, version, "/testauth", testgrp.TestAuth, mid.Authenticate(cfg.Auth), mid.Authorize(cfg.Auth))
 }

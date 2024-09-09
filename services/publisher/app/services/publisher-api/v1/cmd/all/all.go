@@ -3,6 +3,7 @@ package all
 
 import (
 	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/app/services/publisher-api/v1/handlers/checkgrp"
+	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/app/services/publisher-api/v1/handlers/testgrp"
 	v1 "github.com/vikaskumar1187/publisher_saasv2/services/publisher/business/web/v1"
 	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/foundation/web"
 )
@@ -22,6 +23,12 @@ func (add) Add(app *web.App, cfg v1.APIMuxConfig) {
 		Build:       cfg.Build,
 		Log:         cfg.Log,
 		DB:          cfg.DB,
+	})
+
+	testgrp.Routes(app, testgrp.Config{
+		Build: cfg.Build,
+		Log:   cfg.Log,
+		Auth:  cfg.Auth,
 	})
 
 }
