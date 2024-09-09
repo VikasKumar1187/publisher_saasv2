@@ -315,8 +315,8 @@ curl-live:
 curl-unknown:
 	curl -il http://localhost:3000/v1/unknown
 
-admin:
-	cd $(PUBLISHER_DIR) && go run app/tooling/publisher-admin/main.go
+admin-tokengen:
+	cd $(PUBLISHER_DIR) && go run app/tooling/admin/auth/main.go "STF" "stage" "tokengen"
 
 # ==============================================================================
 # Running using Service Weaver.
