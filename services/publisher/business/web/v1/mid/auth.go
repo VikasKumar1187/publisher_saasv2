@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/vikaskumar1187/publisher_saas/business/web/v1/auth"
-	"github.com/vikaskumar1187/publisher_saas/foundation/web"
+	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/business/web/v1/auth"
+	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/foundation/web"
 )
 
 // Authenticate validates a JWT from the `Authorization` header.

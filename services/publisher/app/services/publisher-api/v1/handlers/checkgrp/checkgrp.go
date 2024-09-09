@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/jmoiron/sqlx"
-	db "github.com/vikaskumar1187/publisher_saas/business/data/dbsql/pgx"
+	db "github.com/vikaskumar1187/publisher_saasv2/services/publisher/business/data/dbsql/pgx"
 
-	"github.com/vikaskumar1187/publisher_saas/foundation/logger"
-	"github.com/vikaskumar1187/publisher_saas/foundation/web"
+	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/foundation/logger"
+	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/foundation/web"
 )
 
 // Handlers manages the set of check endpoints.

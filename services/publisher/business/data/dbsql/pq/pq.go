@@ -12,8 +12,8 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
-	"github.com/vikaskumar1187/publisher_saas/foundation/logger"
-	"github.com/vikaskumar1187/publisher_saas/foundation/web"
+	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/foundation/logger"
+	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/foundation/web"
 	"go.opentelemetry.io/otel/attribute"
 )
 
