@@ -53,7 +53,6 @@ func (a *Auth) Authenticate(ctx context.Context, bearerToken string) (navigaid.C
 		return navigaid.Claims{}, errors.New("expected authorization header format: Bearer <token>")
 	}
 
-	a.log.Info(ctx, "token", bearerToken)
 	jwks := navigaid.NewJWKS(
 		navigaid.ImasJWKSEndpoint(a.imasURL),
 	)
