@@ -31,7 +31,7 @@ func GetValues(ctx context.Context) *Values {
 	v, ok := ctx.Value(key).(*Values)
 	if !ok {
 		return &Values{
-			TraceID: "00000000-0000-0000-0000-000000000000",
+			TraceID: "00000000000000000000000000000000",
 			Tracer:  noop.NewTracerProvider().Tracer(""),
 			Now:     time.Now(),
 		}
@@ -44,7 +44,7 @@ func GetValues(ctx context.Context) *Values {
 func GetTraceID(ctx context.Context) string {
 	v, ok := ctx.Value(key).(*Values)
 	if !ok {
-		return "00000000-0000-0000-0000-000000000000"
+		return "00000000000000000000000000000000"
 	}
 	return v.TraceID
 }
