@@ -35,7 +35,6 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.5 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/go-resty/resty/v2 v2.14.0 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/google/cel-go v0.21.0 // indirect
 	github.com/google/pprof v0.0.0-20240903155634-a8630aee4ab9 // indirect

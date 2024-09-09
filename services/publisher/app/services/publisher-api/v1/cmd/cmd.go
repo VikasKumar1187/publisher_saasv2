@@ -46,7 +46,7 @@ func Main(build string, routeAdder v1.RouteAdder) error {
 		return web.GetTraceID(ctx)
 	}
 
-	log = logger.NewWithEvents(os.Stdout, logger.LevelInfo, "SALES-API", traceIDFunc, events)
+	log = logger.NewWithEvents(os.Stdout, logger.LevelInfo, "PUBLISHER-API", traceIDFunc, events)
 
 	// -------------------------------------------------------------------------
 
@@ -119,8 +119,8 @@ func run(ctx context.Context, log *logger.Logger, build string, routeAdder v1.Ro
 			DisableTLS   bool   `conf:"default:true"`
 		}
 		Auth struct {
-			Env         string `conf:"dev"`
-			ImasURL     string `conf:"https://imas.dev.imid.infomaker.io"`
+			Env         string `conf:"stage"`
+			ImasURL     string `conf:"https://imas.stage.imid.infomaker.io"`
 			Permissions string `conf:"pagehub:publish"`
 		}
 		Tempo struct {

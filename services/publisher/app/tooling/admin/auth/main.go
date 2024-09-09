@@ -140,13 +140,10 @@ func generateToken(config *Config, customerName string, env Environment) error {
 		return fmt.Errorf("received empty access token")
 	}
 
-	err = os.Setenv("TOKEN", tokenResp.AccessToken)
-	if err != nil {
-		return fmt.Errorf("error setting TOKEN environment variable: %w", err)
-	}
-
-	log.Printf("Token generated successfully and stored in TOKEN environment variable")
-	return nil
+	token := strings.TrimPrefix(tokenResp.AccessToken, "bearer ")
+	fmt.Printf("TOKEN=%s\n", token)
+    log.Printf("Token generated successfully")
+    return nil
 }
 
 // Helper function to find a customer case-insensitively
