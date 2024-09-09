@@ -119,9 +119,9 @@ func run(ctx context.Context, log *logger.Logger, build string, routeAdder v1.Ro
 			DisableTLS   bool   `conf:"default:true"`
 		}
 		Auth struct {
-			Env         string `conf:"stage"`
-			ImasURL     string `conf:"https://imas.stage.imid.infomaker.io"`
-			Permissions string `conf:"pagehub:publish"`
+			Env         string `conf:"default:stage"`
+			ImasURL     string `conf:"default:https://imas.stage.imid.infomaker.io"`
+			Permissions string `conf:"default:pagehub:publish"`
 		}
 		Tempo struct {
 			ReporterURI string  `conf:"default:tempo.publisher-system.svc.cluster.local:4317"`
