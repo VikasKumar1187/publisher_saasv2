@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/golang-jwt/jwt/v5"
 	"github.com/navigacontentlab/panurge/navigaid"
 	"github.com/vikaskumar1187/publisher_saasv2/services/publisher/foundation/logger"
 )
@@ -25,8 +24,6 @@ type Config struct {
 // Auth is used to authenticate clients.
 type Auth struct {
 	log         *logger.Logger
-	method      jwt.SigningMethod
-	parser      *jwt.Parser
 	env         string
 	imasURL     string
 	permissions string
@@ -37,8 +34,6 @@ func New(cfg Config) (*Auth, error) {
 
 	a := Auth{
 		log:         cfg.Log,
-		method:      jwt.GetSigningMethod(jwt.SigningMethodRS256.Name),
-		parser:      jwt.NewParser(jwt.WithValidMethods([]string{jwt.SigningMethodRS256.Name})),
 		env:         cfg.Env,
 		imasURL:     cfg.ImasURL,
 		permissions: cfg.Permissions,

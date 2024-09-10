@@ -46,11 +46,17 @@ func Errors(log *logger.Logger) web.Middleware {
 					}
 					status = reqErr.Status
 
-				case auth.IsAuthError(err):
+				case auth.IsAuthenticationError(err):
 					er = response.ErrorDocument{
 						Error: http.StatusText(http.StatusUnauthorized),
 					}
 					status = http.StatusUnauthorized
+
+				case auth.IsAuthorizationError(err):
+					er = response.ErrorDocument{
+						Error: http.StatusText(http.StatusForbidden),
+					}
+					status = http.StatusForbidden
 
 				default:
 					er = response.ErrorDocument{

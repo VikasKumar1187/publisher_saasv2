@@ -5,27 +5,50 @@ import (
 	"fmt"
 )
 
-// AuthError is used to pass an error during the request through the
-// application with auth specific context.
-type AuthError struct {
+
+
+type AuthenticationError struct {
 	msg string
 }
 
-// NewAuthError creates an AuthError for the provided message.
-func NewAuthError(format string, args ...any) error {
-	return &AuthError{
+
+type AuthorizationError struct {
+	msg string
+}
+
+
+func NewAuthenticationError(format string, args ...any) error {
+	return &AuthenticationError{
 		msg: fmt.Sprintf(format, args...),
 	}
 }
 
-// Error implements the error interface. It uses the default message of the
-// wrapped error. This is what will be shown in the services' logs.
-func (ae *AuthError) Error() string {
+
+func NewAuthorizationError(format string, args ...any) error {
+	return &AuthorizationError{
+		msg: fmt.Sprintf(format, args...),
+	}
+}
+
+
+func (ae *AuthenticationError) Error() string {
 	return ae.msg
 }
 
-// IsAuthError checks if an error of type AuthError exists.
-func IsAuthError(err error) bool {
-	var ae *AuthError
+
+func (ae *AuthorizationError) Error() string {
+	return ae.msg
+}
+
+
+func IsAuthenticationError(err error) bool {
+	var ae *AuthenticationError
 	return errors.As(err, &ae)
 }
+
+
+func IsAuthorizationError(err error) bool {
+	var ae *AuthorizationError
+	return errors.As(err, &ae)
+}
+

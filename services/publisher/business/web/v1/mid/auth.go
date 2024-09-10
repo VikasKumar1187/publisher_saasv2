@@ -14,7 +14,7 @@ func Authenticate(a *auth.Auth) web.Middleware {
 		h := func(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
 			claims, err := a.Authenticate(ctx, r.Header.Get("authorization"))
 			if err != nil {
-				return auth.NewAuthError("authenticate: failed: %s", err)
+				return auth.NewAuthenticationError("authenticate: failed: %s", err)
 			}
 
 			ctx = auth.SetClaims(ctx, claims)
@@ -36,7 +36,7 @@ func Authorize(a *auth.Auth) web.Middleware {
 			claims := auth.GetClaims(ctx)
 
 			if err := a.Authorize(ctx, claims); err != nil {
-				return auth.NewAuthError("authorize: you are not authorized for that action, claims[%v] : %s", err)
+				return auth.NewAuthorizationError("authorize: you are not authorized for that action, claims[%v] : %s", err)
 			}
 
 			return handler(ctx, w, r)

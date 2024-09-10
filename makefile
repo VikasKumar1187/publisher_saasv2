@@ -318,25 +318,9 @@ curl-unknown:
 .PHONY: admin-tokengen curl-auth
 
 admin-tokengen:
-	@cd services/publisher && \
-	RAW_TOKEN=$$(go run app/tooling/admin/auth/main.go "STF" "stage" "tokengen" | grep "^TOKEN=" | cut -d'=' -f2) && \
-	CLEAN_TOKEN=$$(echo "$$RAW_TOKEN" | sed 's/^bearer //i' | tr -d '\r\n') && \
-	if [ -n "$$CLEAN_TOKEN" ]; then \
-		echo "export TOKEN=$$CLEAN_TOKEN" > ~/.publisher_token && \
-		echo "Clean token generated and stored in ~/.publisher_token" && \
-		echo "To use the token, run: source ~/.publisher_token"; \
-		echo "Clean token value: $$CLEAN_TOKEN"; \
-	else \
-		echo "Failed to generate token" >&2; \
-		exit 1; \
-	fi
+	cd services/publisher && go run app/tooling/admin/auth/main.go "STF" "stage" "tokengen"
 
 curl-auth:
-	@if [ -z "$$TOKEN" ]; then \
-		echo "TOKEN is not set. Run 'source ~/.publisher_token' first."; \
-		exit 1; \
-	fi
-	@echo "Using token: $${TOKEN:0:20}..." # Display first 20 characters of the token
 	curl -il -H "Authorization: Bearer $$TOKEN" http://localhost:3000/v1/testauth
 
 check-token:
