@@ -1,0 +1,51 @@
+# Build the Go Binary.
+FROM golang:1.23.1 as builder
+ENV CGO_ENABLED 0
+ARG BUILD_REF
+
+# Create the services directory and the copy the module files first and then
+# download the dependencies. If this doesn't change, we won't need to do this
+# again in future builds.
+
+RUN mkdir /services
+RUN mkdir /services/publisher
+
+# Copy go.mod and go.sum files
+COPY services/publisher/go.mod services/publisher/go.sum /services/publisher/
+WORKDIR /services/publisher
+
+# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
+RUN go mod download
+
+# Copy the source code into the container
+COPY services/publisher/ ./
+
+# Build the admin binary.
+WORKDIR /services/publisher/app/tooling/admin
+RUN go build -ldflags "-X main.build=${BUILD_REF}"
+
+# Build the service binary.
+WORKDIR /services/publisher/app/services/publisher-api
+RUN go build -ldflags "-X main.build=${BUILD_REF}"
+
+
+# Run the Go Binary in Alpine.
+FROM alpine:3.19
+ARG BUILD_DATE
+ARG BUILD_REF
+RUN addgroup -g 1000 -S publisher && \
+    adduser -u 1000 -h /services/publisher -G publisher -S publisher
+
+
+COPY --from=builder --chown=publisher:publisher /services/publisher/app/tooling/admin/admin /services/publisher/admin
+COPY --from=builder --chown=publisher:publisher /services/publisher/app/services/publisher-api/publisher-api /services/publisher/publisher-api
+WORKDIR /services/publisher
+USER publisher
+CMD ["./publisher-api"]
+
+LABEL org.opencontainers.image.created="${BUILD_DATE}" \
+    org.opencontainers.image.title="publisher-api" \
+    org.opencontainers.image.authors="Vikas KM" \
+    org.opencontainers.image.source="https://github.com/vikaskumar1187/publisher_saasv2.git" \
+    org.opencontainers.image.revision="${BUILD_REF}" \
+    org.opencontainers.image.vendor=" Vikas KM"
