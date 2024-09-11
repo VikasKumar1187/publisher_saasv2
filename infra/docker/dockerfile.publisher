@@ -20,8 +20,8 @@ RUN go mod download
 COPY . /service
 
 # Build the admin binary.
-WORKDIR /service/app/tooling/admin
-RUN go build -ldflags "-X main.build=${BUILD_REF}" -o /service/admin
+# WORKDIR /service/app/tooling/admin
+# RUN go build -ldflags "-X main.build=${BUILD_REF}" -o /service/admin
 
 # Build the service binary.
 WORKDIR /service/app/services/publisher-api
@@ -38,7 +38,7 @@ RUN addgroup -g 1000 -S publisher && \
     adduser -u 1000 -h /service -G publisher -S publisher
 
 # Copy built binaries from the builder stage.
-COPY --from=builder --chown=publisher:publisher /service/admin /service/admin
+#COPY --from=builder --chown=publisher:publisher /service/admin /service/admin
 COPY --from=builder --chown=publisher:publisher /service/publisher-api /service/publisher-api
 
 # Set the working directory and user.
