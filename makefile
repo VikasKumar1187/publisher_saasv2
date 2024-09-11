@@ -70,11 +70,11 @@ all: service
 
 service:
 	docker build \
-		-f zarf/docker/dockerfile.service \
+		-f infra/docker/dockerfile.publisher \
 		-t $(SERVICE_IMAGE) \
 		--build-arg BUILD_REF=$(VERSION) \
 		--build-arg BUILD_DATE="$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")" \
-		.
+		services/publisher
 
 #==============================================================================
 # Running from within k8s/kind
