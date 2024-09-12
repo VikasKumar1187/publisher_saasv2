@@ -83,7 +83,7 @@ dev-up:
 	kind create cluster \
 		--image $(KIND) \
 		--name $(KIND_CLUSTER) \
-		--config zarf/k8s/dev/kind-config.yaml
+		--config infra/k8s/dev/kind-config.yaml
 
 	kubectl wait --timeout=120s --namespace=local-path-storage --for=condition=Available deployment/local-path-provisioner
 
@@ -103,23 +103,23 @@ dev-load:
 	kind load docker-image $(SERVICE_IMAGE) --name $(KIND_CLUSTER)
 
 dev-apply:
-	# kustomize build zarf/k8s/dev/database | kubectl apply -f -
-	# kubectl rollout status --namespace=$(NAMESPACE) --watch --timeout=120s sts/database
+# kustomize build zarf/k8s/dev/database | kubectl apply -f -
+# kubectl rollout status --namespace=$(NAMESPACE) --watch --timeout=120s sts/database
 
-	# kustomize build zarf/k8s/dev/grafana | kubectl apply -f -
-	# kubectl wait pods --namespace=$(NAMESPACE) --selector app=grafana --timeout=120s --for=condition=Ready
+# kustomize build zarf/k8s/dev/grafana | kubectl apply -f -
+# kubectl wait pods --namespace=$(NAMESPACE) --selector app=grafana --timeout=120s --for=condition=Ready
 
-	# kustomize build zarf/k8s/dev/prometheus | kubectl apply -f -
-	# kubectl wait pods --namespace=$(NAMESPACE) --selector app=prometheus --timeout=120s --for=condition=Ready
+# kustomize build zarf/k8s/dev/prometheus | kubectl apply -f -
+# kubectl wait pods --namespace=$(NAMESPACE) --selector app=prometheus --timeout=120s --for=condition=Ready
 
-	# kustomize build zarf/k8s/dev/tempo | kubectl apply -f -
-	# kubectl wait pods --namespace=$(NAMESPACE) --selector app=tempo --timeout=120s --for=condition=Ready
+# kustomize build zarf/k8s/dev/tempo | kubectl apply -f -
+# kubectl wait pods --namespace=$(NAMESPACE) --selector app=tempo --timeout=120s --for=condition=Ready
 
-	# kustomize build zarf/k8s/dev/loki | kubectl apply -f -
-	# kubectl wait pods --namespace=$(NAMESPACE) --selector app=loki --timeout=120s --for=condition=Ready
+# kustomize build zarf/k8s/dev/loki | kubectl apply -f -
+# kubectl wait pods --namespace=$(NAMESPACE) --selector app=loki --timeout=120s --for=condition=Ready
 
-	# kustomize build zarf/k8s/dev/promtail | kubectl apply -f -
-	# kubectl wait pods --namespace=$(NAMESPACE) --selector app=promtail --timeout=120s --for=condition=Ready
+# kustomize build zarf/k8s/dev/promtail | kubectl apply -f -
+# kubectl wait pods --namespace=$(NAMESPACE) --selector app=promtail --timeout=120s --for=condition=Ready
 
 	kustomize build infra/k8s/dev/publisher | kubectl apply -f -
 	kubectl wait pods --namespace=$(NAMESPACE) --selector app=$(APP) --timeout=120s --for=condition=Ready
