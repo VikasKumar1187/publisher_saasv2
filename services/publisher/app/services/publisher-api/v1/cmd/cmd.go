@@ -46,7 +46,7 @@ func Main(build string, routeAdder v1.RouteAdder) error {
 		return web.GetTraceID(ctx)
 	}
 
-	log = logger.NewWithEvents(os.Stdout, logger.LevelInfo, "PUBLISHER-API", traceIDFunc, events)
+	log = logger.NewWithEvents(os.Stdout, logger.LevelInfo, "PUB-API", traceIDFunc, events)
 
 	// -------------------------------------------------------------------------
 
@@ -74,7 +74,7 @@ func MainServiceWeaver(build string, routeAdder v1.RouteAdder, debug net.Listene
 		return web.GetTraceID(ctx)
 	}
 
-	log = logger.NewWithEvents(os.Stdout, logger.LevelInfo, "PUBLISHER-API", traceIDFunc, events)
+	log = logger.NewWithEvents(os.Stdout, logger.LevelInfo, "PUB-API", traceIDFunc, events)
 
 	// -------------------------------------------------------------------------
 
@@ -125,7 +125,7 @@ func run(ctx context.Context, log *logger.Logger, build string, routeAdder v1.Ro
 		}
 		Tempo struct {
 			ReporterURI string  `conf:"default:tempo.publisher-system.svc.cluster.local:4317"`
-			ServiceName string  `conf:"default:publisher-api"`
+			ServiceName string  `conf:"default:pub-api"`
 			Probability float64 `conf:"default:1"` // Shouldn't use a high value in non-developer systems. 0.05 should be enough for most systems. Some might want to have this even lower
 		}
 	}{

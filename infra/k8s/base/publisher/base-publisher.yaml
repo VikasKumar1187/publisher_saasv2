@@ -25,13 +25,13 @@ spec:
       terminationGracePeriodSeconds: 60
 
       containers:
-      - name: publisher-api
+      - name: pub-api
         image: service-image
 
         ports:
-        - name: publisher-api
+        - name: pub-api
           containerPort: 3000
-        - name: publisher-api-debug
+        - name: pub-api-debug
           containerPort: 4000
 
         readinessProbe: # readiness probes mark the service available to accept traffic.
@@ -82,7 +82,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: publisher-api
+  name: pub-api
   namespace: publisher-system
 
 spec:

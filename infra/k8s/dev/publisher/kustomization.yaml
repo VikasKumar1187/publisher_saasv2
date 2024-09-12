@@ -7,5 +7,5 @@ patches:
 - path: ./dev-publisher-patch-service.yaml
 images:
 - name: service-image
-  newName: publisher/service/publisher-api
+  newName: publisher/service/pub-api
   newTag: 0.0.1

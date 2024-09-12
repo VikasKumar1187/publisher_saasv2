@@ -89,7 +89,7 @@ spec:
 # colocated PODs.
 
       containers:
-      - name: publisher-api
+      - name: pub-api
         resources:
           requests:
             cpu: "1500m" # I need access to 1.5 cores on the node.

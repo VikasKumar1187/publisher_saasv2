@@ -22,7 +22,7 @@ KIND_CLUSTER    := publisher-cluster
 NAMESPACE       := publisher-system
 APP             := publisher
 BASE_IMAGE_NAME := publisher/service
-SERVICE_NAME    := publisher-api
+SERVICE_NAME    := pub-api
 VERSION         := 0.0.1
 SERVICE_IMAGE   := $(BASE_IMAGE_NAME)/$(SERVICE_NAME):$(VERSION)
 PUBLISHER_DIR	:= services/publisher
@@ -88,11 +88,11 @@ dev-up:
 	kubectl wait --timeout=120s --namespace=local-path-storage --for=condition=Available deployment/local-path-provisioner
 
 	kind load docker-image $(POSTGRES) --name $(KIND_CLUSTER)
-	kind load docker-image $(GRAFANA) --name $(KIND_CLUSTER)
-	kind load docker-image $(PROMETHEUS) --name $(KIND_CLUSTER)
-	kind load docker-image $(TEMPO) --name $(KIND_CLUSTER)
-	kind load docker-image $(LOKI) --name $(KIND_CLUSTER)
-	kind load docker-image $(PROMTAIL) --name $(KIND_CLUSTER)
+#kind load docker-image $(TEMPO) --name $(KIND_CLUSTER)
+# kind load docker-image $(GRAFANA) --name $(KIND_CLUSTER)
+# kind load docker-image $(PROMETHEUS) --name $(KIND_CLUSTER)
+# kind load docker-image $(LOKI) --name $(KIND_CLUSTER)
+# kind load docker-image $(PROMTAIL) --name $(KIND_CLUSTER)
 
 dev-down:
 	kind delete cluster --name $(KIND_CLUSTER)
@@ -103,8 +103,12 @@ dev-load:
 	kind load docker-image $(SERVICE_IMAGE) --name $(KIND_CLUSTER)
 
 dev-apply:
-# kustomize build zarf/k8s/dev/database | kubectl apply -f -
-# kubectl rollout status --namespace=$(NAMESPACE) --watch --timeout=120s sts/database
+	kustomize build infra/k8s/dev/database | kubectl apply -f -
+	kubectl rollout status --namespace=$(NAMESPACE) --watch --timeout=120s sts/database
+
+
+# kustomize build infra/k8s/dev/tempo | kubectl apply -f -
+# kubectl wait pods --namespace=$(NAMESPACE) --selector app=tempo --timeout=120s --for=condition=Ready
 
 # kustomize build zarf/k8s/dev/grafana | kubectl apply -f -
 # kubectl wait pods --namespace=$(NAMESPACE) --selector app=grafana --timeout=120s --for=condition=Ready
@@ -112,8 +116,6 @@ dev-apply:
 # kustomize build zarf/k8s/dev/prometheus | kubectl apply -f -
 # kubectl wait pods --namespace=$(NAMESPACE) --selector app=prometheus --timeout=120s --for=condition=Ready
 
-# kustomize build zarf/k8s/dev/tempo | kubectl apply -f -
-# kubectl wait pods --namespace=$(NAMESPACE) --selector app=tempo --timeout=120s --for=condition=Ready
 
 # kustomize build zarf/k8s/dev/loki | kubectl apply -f -
 # kubectl wait pods --namespace=$(NAMESPACE) --selector app=loki --timeout=120s --for=condition=Ready
@@ -134,7 +136,7 @@ dev-update-apply: all dev-load dev-apply
 # ===================================================================================
 
 dev-logs:
-	kubectl logs --namespace=$(NAMESPACE) -l app=$(APP) --all-containers=true -f --tail=100 --max-log-requests=6 | go run app/tooling/logfmt/main.go -service=$(SERVICE_NAME)
+	kubectl logs --namespace=$(NAMESPACE) -l app=$(APP) --all-containers=true -f --tail=100 --max-log-requests=6 | go run services/publisher/app/tooling/logfmt/main.go -service=$(SERVICE_NAME)
 
 dev-logs-init:
 	kubectl logs --namespace=$(NAMESPACE) -l app=$(APP) -f --tail=100 -c init-migrate

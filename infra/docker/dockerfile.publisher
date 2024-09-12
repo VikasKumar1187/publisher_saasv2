@@ -39,14 +39,14 @@ RUN addgroup -g 1000 -S publisher && \
 
 # Copy built binaries from the builder stage.
 #COPY --from=builder --chown=publisher:publisher /service/admin /service/admin
-COPY --from=builder --chown=publisher:publisher /service/publisher-api /service/publisher-api
+COPY --from=builder --chown=publisher:publisher /service/publisher-api /service/pub-api
 
 # Set the working directory and user.
 WORKDIR /service
 USER publisher
 
 # Start the service.
-CMD ["./publisher-api"]
+CMD ["./pub-api"]
 
 # Set metadata labels.
 LABEL org.opencontainers.image.created="${BUILD_DATE}" \

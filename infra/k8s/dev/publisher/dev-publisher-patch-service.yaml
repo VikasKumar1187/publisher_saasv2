@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: publisher-api
+  name: pub-api
   namespace: publisher-system
 
 spec:
@@ -11,9 +11,9 @@ spec:
   type: ClusterIP
 
   ports:
-  - name: publisher-api
+  - name: pub-api
     port: 3000
-    targetPort: publisher-api
-  - name: publisher-api-debug
+    targetPort: pub-api
+  - name: pub-api-debug
     port: 4000
-    targetPort: publisher-api-debug
+    targetPort: pub-api-debug
